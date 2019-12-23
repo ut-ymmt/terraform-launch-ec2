@@ -12,6 +12,8 @@ A template for instantly launching ec2 using terraform.
 cd envs
 mkdir helloworld
 cp sample/* helloworld/
+cd helloworld
+terraform init
 ```
 
 2. Edit file
@@ -23,7 +25,6 @@ cp sample/* helloworld/
 3. Create ec2
 
 ```bash
-terraform init
 terraform plan
 terraform apply
 ```
