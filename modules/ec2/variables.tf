@@ -1,8 +1,18 @@
-variable "subnet" {}
-variable "key_pair" {}
-variable "ami" {}
-variable "security_groups" {}
+variable "subnet" {
+}
 
-variable "tags_owner" {}
-variable "tags_name" {}
+variable "key_pair" {
+}
+
+variable "ami" {
+}
+
+variable "security_groups" {
+}
+
+variable "tags_owner" {
+}
+
+variable "tags_name" {
+}
 
