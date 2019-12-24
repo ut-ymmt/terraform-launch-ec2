@@ -1,0 +1,4 @@
+FROM minamijoyo/tfupdate:latest
+
+WORKDIR /workspace/tfupdate
+COPY . /workspace/tfupdate
