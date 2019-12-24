@@ -11,7 +11,32 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Docker run
+    - name: Docker Build
       run: |
         docker build -t tfupdate -f Dockerfile.tfupdate .
-        docker run tfupdate
+    - name: Terraform Update
+      run: |
+        docker run \
+          -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GITHUB_USER=${{ secrets.GITHUB_USER }} \
+          -e GIT_COMMITTER_NAME=${{ secrets.GITHUB_USER }} \
+          -e EMAIL=${{ secrets.EMAIL }} \
+          -e BASE_BRANCH=${BASE_BRANCH} \
+          --entrypoint "./update-terraform.sh" \
+          tfupdate
+      env:
+        BASE_BRANCH: "feature/tfupdate"
+    - name: AWS Provider Update
+      run: |
+        docker run \
+          -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GITHUB_USER=${{ secrets.GITHUB_USER }} \
+          -e GIT_COMMITTER_NAME=${{ secrets.GITHUB_USER }} \
+          -e EMAIL=${{ secrets.EMAIL }} \
+          -e BASE_BRANCH=${BASE_BRANCH} \
+          -e PROVIDER_NAME=${PROVIDER_NAME} \
+          --entrypoint "./update-provider.sh" \
+          tfupdate
+      env:
+        BASE_BRANCH: "feature/tfupdate"
+        PROVIDER_NAME: "aws"
