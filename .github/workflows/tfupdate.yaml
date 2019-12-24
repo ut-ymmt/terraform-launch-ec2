@@ -15,6 +15,7 @@ jobs:
       run: |
         docker build -t tfupdate -f Dockerfile.tfupdate .
     - name: Terraform Update
+      run: |
         docker run \
           -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
           -e BASE_BRANCH=${BASE_BRANCH} \
