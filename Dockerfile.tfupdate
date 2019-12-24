@@ -1,0 +1,6 @@
+FROM minamijoyo/tfupdate:latest
+
+WORKDIR /workspace/tfupdate
+COPY . /workspace/tfupdate
+
+ENTRYPOINT ["/workspace/tfupdate/tfupdate-entrypoint.sh"]
