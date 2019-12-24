@@ -14,4 +14,6 @@ jobs:
     - name: Docker run
       run: |
         docker build -t tfupdate -f Dockerfile.tfupdate .
-        docker run tfupdate
+        docker run tfupdate -e TMP=$TMP
+      env:
+        TMP: hoge
