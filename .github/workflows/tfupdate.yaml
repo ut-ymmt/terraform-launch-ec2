@@ -1,0 +1,17 @@
+name: tfupdate
+
+on:
+  push:
+    branches:
+      - feature/tfupdate
+
+jobs:
+  tfupdate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Docker run
+      run: |
+        docker build -t tfupdate -f Dockerfile.tfupdate .
+        docker run tfupdate
