@@ -11,14 +11,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Docker run
+    - name: Docker Build
       run: |
         docker build -t tfupdate -f Dockerfile.tfupdate .
+    - name: Terraform Update
         docker run \
           -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GIT_COMMITTER_NAME=${{ secrets.GIT_COMMITTER_NAME }} \
-          -e GIT_AUTHOR_NAME=${{ secrets.GIT_AUTHOR_NAME }} \
-          -e EMAIL=${{ secrets.EMAIL }} \
           -e BASE_BRANCH=${BASE_BRANCH} \
           -e GITHUB_USER=ut-ymmt \
           --entrypoint "./update-terraform.sh" \
