@@ -19,6 +19,8 @@ jobs:
         docker run \
           -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
           -e BASE_BRANCH=${BASE_BRANCH} \
+          -e GIT_COMMITTER_NAME=${{ secrets.GIT_COMMITTER_NAME }} \
+          -e EMAIL=${{ secrets.EMAIL }} \
           -e GITHUB_USER=ut-ymmt \
           --entrypoint "./update-terraform.sh" \
           tfupdate
