@@ -1,9 +1,8 @@
 name: tfupdate
 
 on:
-  push:
-    branches:
-      - feature/tfupdate
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   tfupdate:
