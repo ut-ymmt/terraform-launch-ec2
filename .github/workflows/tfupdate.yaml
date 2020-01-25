@@ -5,37 +5,27 @@ on:
     - cron:  '0 0 * * *'
 
 jobs:
-  tfupdate:
+  test_terraform_job:
     runs-on: ubuntu-latest
+    name: Update terraform versions
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Docker Build
-      run: |
-        docker build -t tfupdate -f Dockerfile.tfupdate .
-    - name: Terraform Update
-      run: |
-        docker run \
-          -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GITHUB_USER=${{ secrets.GITHUB_USER }} \
-          -e GIT_COMMITTER_NAME=${{ secrets.GITHUB_USER }} \
-          -e EMAIL=${{ secrets.EMAIL }} \
-          -e BASE_BRANCH=${BASE_BRANCH} \
-          --entrypoint "./update-terraform.sh" \
-          tfupdate
-      env:
-        BASE_BRANCH: "master"
-    - name: AWS Provider Update
-      run: |
-        docker run \
-          -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GITHUB_USER=${{ secrets.GITHUB_USER }} \
-          -e GIT_COMMITTER_NAME=${{ secrets.GITHUB_USER }} \
-          -e EMAIL=${{ secrets.EMAIL }} \
-          -e BASE_BRANCH=${BASE_BRANCH} \
-          -e PROVIDER_NAME=${PROVIDER_NAME} \
-          --entrypoint "./update-provider.sh" \
-          tfupdate
-      env:
-        BASE_BRANCH: "master"
-        PROVIDER_NAME: "aws"
+    - name: "Checkout"
+      uses: actions/checkout@v1
+    - name: tfupdate
+      uses: daisaru11/tfupdate-github-actions@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tfupdate_subcommand: terraform
+
+  test_provider_job:
+    runs-on: ubuntu-latest
+    name: Update provider versions
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v1
+    - name: tfupdate
+      uses: daisaru11/tfupdate-github-actions@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tfupdate_subcommand: provider
+        tfupdate_provider_name: aws
